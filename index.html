@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Luxe Homes – Premium Real Estate India</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<style>
+  :root {
+    --cream: #FAF7F2; --warm-white: #FFFCF8; --gold: #C9A84C;
+    --gold-light: #E8C96E; --gold-dark: #9A7530; --charcoal: #1C1C1E;
+    --slate: #3A3A3C; --mid: #6C6C70; --pale: #D1C9B8; --pale2: #EDE8DF;
+    --accent: #8B4513; --green: #2D6A4F; --card-bg: #FFFFFF;
+    --border: #E0D8CC; --shadow: 0 4px 32px rgba(28,28,30,0.08);
+    --shadow-lg: 0 12px 60px rgba(28,28,30,0.14);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--charcoal); overflow-x: hidden; line-height: 1.6; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(250,247,242,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 72px; transition: box-shadow 0.3s; }
+  nav.scrolled { box-shadow: 0 2px 24px rgba(28,28,30,0.1); }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-svg { width: 42px; height: 42px; flex-shrink: 0; }
+  .logo-text-wrap { display: flex; flex-direction: column; line-height: 1.1; }
+  .logo-name { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 700; color: var(--charcoal); letter-spacing: 0.04em; }
+  .logo-tagline { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-dark); font-weight: 500; }
+  .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--slate); font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; position: relative; padding-bottom: 2px; transition: color 0.2s; }
+  .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s; }
+  .nav-links a:hover { color: var(--gold-dark); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta { background: var(--gold); color: #fff !important; padding: 8px 20px !important; border-radius: 4px; transition: background 0.2s !important; }
+  .nav-cta:hover { background: var(--gold-dark) !important; }
+  .nav-cta::after { display: none !important; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--charcoal); transition: 0.3s; }
+  .mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; background: var(--warm-white); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; z-index: 999; flex-direction: column; gap: 1rem; }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { text-decoration: none; color: var(--slate); font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+
+  /* HERO */
+  #hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 2rem 4rem; background: linear-gradient(160deg, rgba(250,247,242,0.9) 0%, rgba(237,232,223,0.95) 100%), url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&q=80') center/cover no-repeat; text-align: center; position: relative; overflow: hidden; }
+  .hero-badge { display: inline-block; background: var(--gold); color: #fff; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; padding: 6px 18px; border-radius: 2px; margin-bottom: 1.8rem; font-weight: 600; animation: fadeUp 0.8s ease both; }
+  .hero-headline { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 8vw, 6.5rem); font-weight: 700; line-height: 1.05; color: var(--charcoal); margin-bottom: 1rem; animation: fadeUp 0.8s 0.15s ease both; }
+  .hero-headline em { font-style: italic; color: var(--gold-dark); }
+  .hero-tagline { font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--mid); max-width: 540px; margin: 0 auto 0.8rem; font-weight: 300; animation: fadeUp 0.8s 0.28s ease both; }
+  .hero-catchphrase { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 2.8vw, 1.5rem); color: var(--gold-dark); font-style: italic; margin-bottom: 2.6rem; font-weight: 300; animation: fadeUp 0.8s 0.38s ease both; }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.8s 0.5s ease both; }
+  .btn-primary { background: var(--gold); color: #fff; padding: 14px 36px; border-radius: 4px; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: background 0.25s, transform 0.2s; display: inline-block; }
+  .btn-primary:hover { background: var(--gold-dark); transform: translateY(-2px); }
+  .btn-outline { background: transparent; color: var(--charcoal); padding: 14px 36px; border-radius: 4px; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; text-decoration: none; border: 2px solid var(--charcoal); cursor: pointer; transition: all 0.25s; display: inline-block; }
+  .btn-outline:hover { background: var(--charcoal); color: #fff; transform: translateY(-2px); }
+  .hero-stats { display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap; margin-top: 4rem; animation: fadeUp 0.8s 0.62s ease both; }
+  .stat { text-align: center; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.6rem; font-weight: 700; color: var(--gold-dark); line-height: 1; }
+  .stat-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--mid); margin-top: 4px; }
+  .hero-divider { position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(to bottom, transparent, var(--cream)); }
+
+  /* SECTIONS */
+  section { padding: 90px 2rem; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .section-label { font-size: 0.7rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold-dark); font-weight: 600; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.6rem; }
+  .section-label::before { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--gold); }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; color: var(--charcoal); line-height: 1.1; margin-bottom: 1rem; }
+  .section-title em { font-style: italic; color: var(--gold-dark); }
+  .section-sub { color: var(--mid); font-size: 0.95rem; max-width: 580px; font-weight: 300; line-height: 1.7; margin-bottom: 3rem; }
+  .divider-gold { width: 60px; height: 2px; background: var(--gold); margin: 1.2rem 0 2rem; }
+
+  /* SEARCH */
+  #search-section { background: var(--charcoal); padding: 50px 2rem; }
+  .search-wrap { max-width: 1100px; margin: 0 auto; }
+  .search-title { font-family: 'Cormorant Garamond', serif; color: #fff; font-size: 1.6rem; font-weight: 600; margin-bottom: 1.5rem; text-align: center; }
+  .search-title span { color: var(--gold-light); font-style: italic; }
+  .search-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.9rem; align-items: end; }
+  .search-field { display: flex; flex-direction: column; gap: 6px; }
+  .search-field label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pale); font-weight: 500; }
+  .search-field select, .search-field input { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 11px 14px; border-radius: 4px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; outline: none; transition: border 0.2s; appearance: none; }
+  .search-field select:focus, .search-field input:focus { border-color: var(--gold-light); }
+  .search-field select option { background: var(--charcoal); }
+  .search-field input::placeholder { color: rgba(255,255,255,0.35); }
+  .search-btn { background: var(--gold); color: #fff; border: none; padding: 12px 28px; border-radius: 4px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; transition: background 0.2s; height: 44px; align-self: flex-end; }
+  .search-btn:hover { background: var(--gold-dark); }
+
+  /* PROPERTIES */
+  #properties { background: var(--warm-white); }
+  .prop-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .prop-tab { padding: 8px 22px; border-radius: 40px; border: 1px solid var(--border); background: transparent; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; cursor: pointer; color: var(--mid); transition: all 0.2s; }
+  .prop-tab.active, .prop-tab:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
+  .prop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
+  .prop-card { background: var(--card-bg); border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); transition: transform 0.3s, box-shadow 0.3s; border: 1px solid var(--border); display: flex; flex-direction: column; }
+  .prop-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+  .prop-img-wrap { position: relative; overflow: hidden; height: 220px; }
+  .prop-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+  .prop-card:hover .prop-img-wrap img { transform: scale(1.06); }
+  .no-photo { width: 100%; height: 100%; background: var(--pale2); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--mid); gap: 8px; }
+  .no-photo span { font-size: 0.78rem; letter-spacing: 0.1em; }
+  .prop-badge { position: absolute; top: 14px; left: 14px; padding: 4px 12px; border-radius: 3px; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: #fff; }
+  .badge-sale { background: var(--accent); }
+  .badge-rent { background: var(--green); }
+  .prop-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
+  .prop-type { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-dark); font-weight: 600; }
+  .prop-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--charcoal); line-height: 1.2; }
+  .prop-location { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; color: var(--mid); }
+  .prop-price { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; color: var(--gold-dark); margin-top: 0.3rem; }
+  .prop-price-per { font-size: 0.75rem; color: var(--mid); font-family: 'DM Sans', sans-serif; font-weight: 400; margin-left: 4px; }
+  .prop-specs { display: flex; gap: 1.2rem; flex-wrap: wrap; padding-top: 0.8rem; border-top: 1px solid var(--border); margin-top: 0.5rem; }
+  .spec { display: flex; align-items: center; gap: 5px; font-size: 0.78rem; color: var(--mid); }
+  .prop-footer { padding: 1rem 1.4rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .prop-footer a { font-size: 0.78rem; color: var(--gold-dark); text-decoration: none; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  .prop-footer a:hover { color: var(--gold); }
+  .no-prop-msg { grid-column: 1/-1; text-align: center; padding: 4rem 1rem; color: var(--mid); font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-style: italic; }
+
+  /* ABOUT */
+  #about { background: var(--cream); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .about-img-box { position: relative; }
+  .about-img-outer { border-radius: 10px; overflow: hidden; box-shadow: var(--shadow-lg); }
+  .about-img-outer img { width: 100%; display: block; height: 480px; object-fit: cover; }
+  .about-badge-box { position: absolute; bottom: -28px; right: -28px; background: var(--gold); color: #fff; padding: 1.6rem 2rem; border-radius: 8px; text-align: center; box-shadow: 0 8px 30px rgba(201,168,76,0.45); }
+  .about-badge-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 700; line-height: 1; }
+  .about-badge-label { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; margin-top: 4px; }
+  .timeline { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.4rem; }
+  .tl-item { display: flex; gap: 1rem; align-items: flex-start; }
+  .tl-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); margin-top: 7px; flex-shrink: 0; }
+  .tl-text { font-size: 0.88rem; color: var(--slate); line-height: 1.6; }
+  .tl-text strong { color: var(--charcoal); font-weight: 600; }
+  .founder-card { margin-top: 2.5rem; background: var(--pale2); border-radius: 8px; padding: 1.4rem 1.6rem; border-left: 3px solid var(--gold); display: flex; gap: 1.2rem; align-items: flex-start; }
+  .founder-icon { width: 48px; height: 48px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 700; }
+  .founder-name { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 700; color: var(--charcoal); }
+  .founder-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold-dark); font-weight: 600; }
+  .founder-bio { font-size: 0.83rem; color: var(--mid); margin-top: 0.4rem; line-height: 1.65; }
+
+  /* STATS */
+  #stats-strip { background: var(--charcoal); padding: 60px 2rem; }
+  .stats-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 2rem; text-align: center; }
+  .strip-stat { color: #fff; }
+  .strip-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+  .strip-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--pale); margin-top: 6px; }
+
+  /* CONSULTATION */
+  #consultation { background: var(--warm-white); }
+  .consult-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: start; }
+  .consult-why { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.2rem; }
+  .why-item { display: flex; gap: 1rem; align-items: flex-start; }
+  .why-icon { width: 42px; height: 42px; border-radius: 8px; background: var(--pale2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--gold-dark); }
+  .why-title { font-weight: 600; font-size: 0.9rem; color: var(--charcoal); }
+  .why-desc { font-size: 0.82rem; color: var(--mid); margin-top: 2px; }
+  .consult-form-card { background: var(--card-bg); border-radius: 12px; padding: 2.5rem; box-shadow: var(--shadow-lg); border: 1px solid var(--border); }
+  .form-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; color: var(--charcoal); margin-bottom: 1.6rem; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1/-1; }
+  .form-group label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); font-weight: 500; }
+  .form-group input, .form-group select, .form-group textarea { border: 1px solid var(--border); background: var(--cream); border-radius: 5px; padding: 11px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: var(--charcoal); outline: none; transition: border 0.2s; resize: none; width: 100%; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+  .radio-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .radio-option { display: flex; align-items: center; gap: 7px; cursor: pointer; }
+  .radio-option input[type=radio] { accent-color: var(--gold); width: 16px; height: 16px; cursor: pointer; }
+  .radio-option span { font-size: 0.85rem; color: var(--slate); font-weight: 500; }
+  .contact-options { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .contact-option-btn { flex: 1; min-width: 130px; padding: 13px 16px; border-radius: 6px; border: 2px solid var(--border); background: transparent; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--slate); transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .contact-option-btn.selected, .contact-option-btn:hover { border-color: var(--gold); background: var(--gold); color: #fff; }
+  .form-submit { width: 100%; background: var(--gold); color: #fff; border: none; border-radius: 5px; padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-top: 1rem; }
+  .form-submit:hover { background: var(--gold-dark); }
+  .form-success { display: none; text-align: center; padding: 2rem 0; flex-direction: column; align-items: center; gap: 1rem; }
+  .check-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.6rem; }
+  .form-success h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; color: var(--charcoal); }
+  .form-success p { font-size: 0.88rem; color: var(--mid); }
+
+  /* CONTACT */
+  #contact { background: var(--cream); }
+  .contact-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: start; }
+  .contact-cards { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1.5rem; }
+  .contact-card { background: var(--card-bg); border-radius: 8px; padding: 1.4rem 1.6rem; border: 1px solid var(--border); display: flex; gap: 1.2rem; align-items: flex-start; box-shadow: var(--shadow); }
+  .contact-icon { width: 44px; height: 44px; border-radius: 8px; background: var(--gold); display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; }
+  .contact-card-title { font-weight: 600; font-size: 0.85rem; color: var(--charcoal); margin-bottom: 2px; }
+  .contact-card-val { font-size: 1rem; color: var(--gold-dark); font-weight: 500; text-decoration: none; display: block; }
+  .contact-card-val:hover { text-decoration: underline; }
+  .hours-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--mid); font-weight: 600; margin-bottom: 0.8rem; margin-top: 1.6rem; }
+  .hours-row { display: flex; justify-content: space-between; font-size: 0.83rem; padding: 7px 0; border-bottom: 1px solid var(--border); color: var(--slate); }
+  .quick-form { background: var(--card-bg); border-radius: 10px; padding: 1.6rem; border: 1px solid var(--border); box-shadow: var(--shadow); }
+  .quick-form-title { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 700; color: var(--charcoal); margin-bottom: 1rem; }
+  .quick-form input, .quick-form textarea { width: 100%; border: 1px solid var(--border); border-radius: 5px; padding: 10px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; background: var(--cream); outline: none; margin-bottom: 0.8rem; }
+  .quick-form input:focus, .quick-form textarea:focus { border-color: var(--gold); }
+  .quick-form textarea { resize: none; }
+
+  /* FOOTER */
+  footer { background: var(--charcoal); color: var(--pale); padding: 60px 2rem 30px; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+  .footer-logo-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 0.6rem; }
+  .footer-desc { font-size: 0.82rem; line-height: 1.7; max-width: 280px; }
+  .footer-col-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--gold-light); font-weight: 600; margin-bottom: 1.2rem; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-links a { text-decoration: none; color: var(--pale); font-size: 0.83rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold-light); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.78rem; }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; z-index: 1500; background: rgba(28,28,30,0.7); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.open { display: flex; }
+  .modal-box { background: var(--warm-white); border-radius: 14px; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 80px rgba(0,0,0,0.3); position: relative; }
+  .modal-img { height: 320px; overflow: hidden; border-radius: 14px 14px 0 0; }
+  .modal-img img { width: 100%; height: 100%; object-fit: cover; }
+  .modal-body { padding: 2rem; }
+  .modal-close { position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; color: var(--charcoal); }
+  .modal-close:hover { background: #fff; }
+  .modal-tags { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .modal-tag { padding: 3px 12px; border-radius: 40px; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; border: 1px solid var(--border); color: var(--mid); }
+  .modal-name { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 700; color: var(--charcoal); line-height: 1.15; margin-bottom: 0.4rem; }
+  .modal-loc { font-size: 0.85rem; color: var(--mid); margin-bottom: 1rem; }
+  .modal-price { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--gold-dark); }
+  .modal-specs { display: flex; gap: 2rem; flex-wrap: wrap; margin: 1.2rem 0; padding: 1.2rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .mspec { text-align: center; }
+  .mspec-val { font-size: 1.3rem; font-weight: 700; color: var(--charcoal); }
+  .mspec-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mid); }
+  .modal-desc { font-size: 0.88rem; color: var(--slate); line-height: 1.75; margin-bottom: 1.2rem; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .nav-links { display: none; } .hamburger { display: flex; }
+    .about-grid, .consult-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-img-box { display: none; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  }
+  @media (max-width: 600px) {
+    section { padding: 60px 1.2rem; }
+    .prop-grid { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    nav { padding: 0 1.2rem; }
+    .search-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 400px) { .search-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a class="nav-logo" href="#hero">
+    <svg class="logo-svg" viewBox="0 0 42 42" fill="none">
+      <rect width="42" height="42" rx="8" fill="#C9A84C"/>
+      <path d="M21 7 L36 20 L36 36 L26 36 L26 28 L16 28 L16 36 L6 36 L6 20 Z" fill="white" opacity="0.95"/>
+      <path d="M13 20 L21 12 L29 20" fill="#9A7530"/>
+      <rect x="18" y="28" width="6" height="8" fill="#C9A84C"/>
+    </svg>
+    <div class="logo-text-wrap">
+      <span class="logo-name">Luxe Homes</span>
+      <span class="logo-tagline">Premium Real Estate · India</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#properties">Properties</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#consultation">Consult</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#consultation" class="nav-cta">Book Now</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMobile()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#properties" onclick="closeMobile()">Properties</a>
+  <a href="#about" onclick="closeMobile()">About Us</a>
+  <a href="#consultation" onclick="closeMobile()">Consultation</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-badge">Since 2002 · Trusted Real Estate in India</div>
+  <h1 class="hero-headline">Find Your <em>Perfect</em><br/>Property in India</h1>
+  <p class="hero-tagline">Residential, Commercial, Villas & Land — curated by India's finest real estate advisor.</p>
+  <p class="hero-catchphrase">"Where Dreams Find Their Address"</p>
+  <div class="hero-btns">
+    <a href="#properties" class="btn-primary">Explore Properties</a>
+    <a href="#consultation" class="btn-outline">Book Consultation</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num" id="stat-sold">0</div><div class="stat-label">Properties Sold</div></div>
+    <div class="stat"><div class="stat-num" id="stat-rented">0</div><div class="stat-label">Properties Rented</div></div>
+    <div class="stat"><div class="stat-num" id="stat-years">0</div><div class="stat-label">Years of Expertise</div></div>
+    <div class="stat"><div class="stat-num" id="stat-clients">0</div><div class="stat-label">Happy Clients</div></div>
+  </div>
+  <div class="hero-divider"></div>
+</section>
+
+<!-- SEARCH -->
+<section id="search-section">
+  <div class="search-wrap">
+    <div class="search-title">Search <span>Your Ideal Property</span></div>
+    <div class="search-grid">
+      <div class="search-field"><label>Property Type</label>
+        <select id="f-type">
+          <option value="">All Types</option>
+          <option value="residential">Residential</option>
+          <option value="commercial">Commercial</option>
+          <option value="villa">Villa</option>
+          <option value="land">Land / Plot</option>
+        </select>
+      </div>
+      <div class="search-field"><label>Listing</label>
+        <select id="f-listing">
+          <option value="">Buy or Rent</option>
+          <option value="sale">For Sale</option>
+          <option value="rent">For Rent</option>
+        </select>
+      </div>
+      <div class="search-field"><label>Locality / City</label>
+        <input type="text" id="f-location" placeholder="e.g. Chennai, Pune…"/>
+      </div>
+      <div class="search-field"><label>Min Price (₹)</label>
+        <input type="number" id="f-min" placeholder="Min"/>
+      </div>
+      <div class="search-field"><label>Max Price (₹)</label>
+        <input type="number" id="f-max" placeholder="Max"/>
+      </div>
+      <div class="search-field"><label>Bedrooms</label>
+        <select id="f-beds">
+          <option value="">Any</option>
+          <option value="1">1+</option><option value="2">2+</option>
+          <option value="3">3+</option><option value="4">4+</option>
+          <option value="5">5+</option>
+        </select>
+      </div>
+      <button class="search-btn" onclick="applySearch()">🔍 Search</button>
+    </div>
+  </div>
+</section>
+
+<!-- PROPERTIES -->
+<section id="properties">
+  <div class="container">
+    <div class="section-label">Our Portfolio</div>
+    <h2 class="section-title">Featured <em>Properties</em></h2>
+    <div class="divider-gold"></div>
+    <p class="section-sub">Handpicked residential homes, premium commercial spaces, sprawling villas, and prime land parcels across India. Every property vetted for quality and value.</p>
+    <div class="prop-tabs">
+      <button class="prop-tab active" onclick="filterTab('all',this)">All</button>
+      <button class="prop-tab" onclick="filterTab('sale',this)">For Sale</button>
+      <button class="prop-tab" onclick="filterTab('rent',this)">For Rent</button>
+      <button class="prop-tab" onclick="filterTab('residential',this)">Residential</button>
+      <button class="prop-tab" onclick="filterTab('commercial',this)">Commercial</button>
+      <button class="prop-tab" onclick="filterTab('villa',this)">Villas</button>
+      <button class="prop-tab" onclick="filterTab('land',this)">Land</button>
+    </div>
+    <div class="prop-grid" id="prop-grid"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-box reveal">
+        <div class="about-img-outer">
+          <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" alt="Luxe Homes"/>
+        </div>
+        <div class="about-badge-box">
+          <div class="about-badge-num">22+</div>
+          <div class="about-badge-label">Years of Excellence</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="section-label">Our Story</div>
+        <h2 class="section-title">A Legacy Built on<br/><em>Trust & Vision</em></h2>
+        <div class="divider-gold"></div>
+        <p class="section-sub" style="margin-bottom:0">Founded in 2002, Luxe Homes has grown from a humble consultancy into one of India's most respected real estate brands — built on integrity, market expertise, and an unwavering passion for connecting people with their dream properties.</p>
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-text"><strong>2002</strong> — Luxe Homes was established with a single mission: transparent, client-first real estate advisory.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-text"><strong>2008–2012</strong> — Expanded portfolio to include commercial properties, industrial plots, and luxury villas across South India.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-text"><strong>2015</strong> — Reached the milestone of 500+ successful property transactions and pan-India network.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-text"><strong>2020–Present</strong> — Embraced digital-first approach, virtual tours, and expanded to land parcels and investment advisory.</div></div>
+        </div>
+        <div class="founder-card">
+          <div class="founder-icon">St</div>
+          <div>
+            <div class="founder-name">Mr. Stephen Shanoj</div>
+            <div class="founder-title">Founder & Principal Advisor · Est. 2002</div>
+            <div class="founder-bio">With over two decades of unmatched experience in Indian real estate, Mr. Stephen Shanoj is celebrated for his razor-sharp market instincts, encyclopaedic knowledge of property law, and his extraordinary ability to match clients with properties that truly resonate with their aspirations.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats-strip">
+  <div class="stats-inner">
+    <div class="strip-stat"><div class="strip-num">500+</div><div class="strip-label">Properties Sold</div></div>
+    <div class="strip-stat"><div class="strip-num">350+</div><div class="strip-label">Properties Rented</div></div>
+    <div class="strip-stat"><div class="strip-num">22+</div><div class="strip-label">Years in Business</div></div>
+    <div class="strip-stat"><div class="strip-num">1200+</div><div class="strip-label">Happy Clients</div></div>
+    <div class="strip-stat"><div class="strip-num">15+</div><div class="strip-label">Cities Covered</div></div>
+  </div>
+</section>
+
+<!-- CONSULTATION -->
+<section id="consultation">
+  <div class="container">
+    <div class="consult-grid">
+      <div class="reveal">
+        <div class="section-label">Expert Guidance</div>
+        <h2 class="section-title">Book a <em>Consultation</em></h2>
+        <div class="divider-gold"></div>
+        <p class="section-sub" style="margin-bottom:0">Whether you're looking to buy your dream home, sell at the best price, or rent out your property — Mr. Stephen is here to guide you at every step.</p>
+        <div class="consult-why">
+          <div class="why-item">
+            <div class="why-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+            <div><div class="why-title">Free Initial Consultation</div><div class="why-desc">First session is complimentary — no obligation, just expert advice.</div></div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg></div>
+            <div><div class="why-title">22+ Years Experience</div><div class="why-desc">Decades of market knowledge across residential, commercial & land.</div></div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></div>
+            <div><div class="why-title">Direct Contact</div><div class="why-desc">📞 7907832122 &nbsp;|&nbsp; ✉️ stephenshanojp@gmail.com</div></div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5"/></svg></div>
+            <div><div class="why-title">Legal & Documentation Support</div><div class="why-desc">End-to-end assistance with property documentation and verification.</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="consult-form-card">
+          <div class="form-title">Request a Consultation</div>
+          <div id="consult-form-inner">
+            <div class="form-grid">
+              <div class="form-group"><label>First Name *</label><input type="text" id="c-fname" placeholder="Your first name"/></div>
+              <div class="form-group"><label>Last Name</label><input type="text" id="c-lname" placeholder="Your last name"/></div>
+              <div class="form-group"><label>Phone Number *</label><input type="tel" id="c-phone" placeholder="+91 XXXXX XXXXX"/></div>
+              <div class="form-group"><label>Email Address *</label><input type="email" id="c-email" placeholder="your@email.com"/></div>
+              <div class="form-group full">
+                <label>Consultation Type *</label>
+                <div class="radio-group" style="margin-top:4px">
+                  <label class="radio-option"><input type="radio" name="c-type" value="Buy"/> <span>🏠 Buy</span></label>
+                  <label class="radio-option"><input type="radio" name="c-type" value="Sell"/> <span>💰 Sell</span></label>
+                  <label class="radio-option"><input type="radio" name="c-type" value="Rent"/> <span>🔑 Rent</span></label>
+                  <label class="radio-option"><input type="radio" name="c-type" value="Invest"/> <span>📈 Invest</span></label>
+                </div>
+              </div>
+              <div class="form-group"><label>Preferred Date</label><input type="date" id="c-date"/></div>
+              <div class="form-group"><label>Preferred Time</label>
+                <select id="c-time">
+                  <option value="">Select Time</option>
+                  <option>9:00 AM – 10:00 AM</option><option>10:00 AM – 11:00 AM</option>
+                  <option>11:00 AM – 12:00 PM</option><option>2:00 PM – 3:00 PM</option>
+                  <option>3:00 PM – 4:00 PM</option><option>4:00 PM – 5:00 PM</option>
+                </select>
+              </div>
+              <div class="form-group full"><label>Message (optional)</label><textarea id="c-msg" rows="3" placeholder="Property type, location, budget or any specific requirements…"></textarea></div>
+              <div class="form-group full">
+                <label>Preferred Contact Method *</label>
+                <div class="contact-options" style="margin-top:4px">
+                  <button type="button" class="contact-option-btn" id="opt-wa" onclick="selectContact('whatsapp')">💬 Via WhatsApp</button>
+                  <button type="button" class="contact-option-btn" id="opt-mail" onclick="selectContact('mail')">📧 Via Mail</button>
+                </div>
+              </div>
+            </div>
+            <button class="form-submit" onclick="submitConsult()">Book My Consultation →</button>
+          </div>
+          <div class="form-success" id="consult-success">
+            <div class="check-icon">✓</div>
+            <h3>Consultation Booked!</h3>
+            <p id="consult-success-msg"></p>
+            <button class="form-submit" style="width:auto;padding:10px 28px" onclick="resetConsult()">Book Another</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="section-label">Get In Touch</div>
+        <h2 class="section-title">Contact <em>Us</em></h2>
+        <div class="divider-gold"></div>
+        <p class="section-sub" style="margin-bottom:0">We're here to assist you at every stage of your real estate journey. Reach out and let's begin.</p>
+        <div class="contact-cards">
+          <div class="contact-card">
+            <div class="contact-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></div>
+            <div><div class="contact-card-title">Phone</div><a href="tel:7907832122" class="contact-card-val">+91 79078 32122</a></div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+            <div><div class="contact-card-title">Email</div><a href="mailto:stephenshanojp@gmail.com" class="contact-card-val">stephenshanojp@gmail.com</a></div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+            <div><div class="contact-card-title">Location</div><span class="contact-card-val" style="color:var(--slate);font-size:0.88rem">Pan-India Operations · Office available on appointment</span></div>
+          </div>
+        </div>
+        <div class="hours-title">Business Hours</div>
+        <div class="hours-row"><span>Monday – Saturday</span><span>9:00 AM – 6:00 PM</span></div>
+        <div class="hours-row"><span>Sunday</span><span>By Appointment</span></div>
+      </div>
+      <div class="reveal">
+        <div style="background:var(--pale2);border-radius:10px;height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--mid);gap:0.5rem;font-size:0.85rem;border:1px dashed var(--pale);margin-bottom:1.5rem;text-align:center;padding:1rem">
+          <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="#C9A84C"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic">Pan-India Service Coverage</span>
+          <span>Chennai · Bangalore · Hyderabad · Mumbai · Pune · Kochi</span>
+        </div>
+        <div class="quick-form">
+          <div class="quick-form-title">Quick Enquiry</div>
+          <input type="text" id="q-name" placeholder="Your Name"/>
+          <input type="tel" id="q-phone" placeholder="Phone Number"/>
+          <input type="email" id="q-email" placeholder="Email Address"/>
+          <textarea id="q-msg" rows="3" placeholder="Your message…"></textarea>
+          <button class="btn-primary" style="width:100%" onclick="submitQuick()">Send Enquiry</button>
+          <div id="quick-success" style="display:none;color:var(--green);font-size:0.83rem;text-align:center;font-weight:500;margin-top:0.8rem">✓ Enquiry sent! We'll be in touch soon.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo-name">Luxe Homes</div>
+        <div class="footer-desc">India's trusted real estate partner since 2002. Residential, commercial, villas, and land — we connect you with properties that feel like home.</div>
+        <div style="margin-top:1.2rem;font-size:0.82rem;line-height:1.8">
+          📞 <a href="tel:7907832122" style="color:var(--gold-light);text-decoration:none">+91 79078 32122</a><br/>
+          ✉️ <a href="mailto:stephenshanojp@gmail.com" style="color:var(--gold-light);text-decoration:none">stephenshanojp@gmail.com</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#properties">Properties</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#consultation">Consultation</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Property Types</div>
+        <ul class="footer-links">
+          <li><a href="#properties">Residential Homes</a></li>
+          <li><a href="#properties">Commercial Spaces</a></li>
+          <li><a href="#properties">Luxury Villas</a></li>
+          <li><a href="#properties">Land & Plots</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="#consultation">Buy Property</a></li>
+          <li><a href="#consultation">Sell Property</a></li>
+          <li><a href="#consultation">Rental Advisory</a></li>
+          <li><a href="#consultation">Investment Advice</a></li>
+          <li><a href="#consultation">Legal Assistance</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Luxe Homes. All rights reserved. Established 2002.</span>
+      <span>Designed with ♥ for India's finest real estate</span>
+    </div>
+  </div>
+</footer>
+
+<!-- PROPERTY DETAIL MODAL -->
+<div class="modal-overlay" id="prop-detail">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeDetail()">✕</button>
+    <div class="modal-img" id="pd-img"></div>
+    <div class="modal-body">
+      <div class="modal-tags" id="pd-tags"></div>
+      <div class="modal-name" id="pd-name"></div>
+      <div class="modal-loc" id="pd-loc"></div>
+      <div class="modal-price" id="pd-price"></div>
+      <div id="pd-ppsf" style="font-size:0.82rem;color:var(--mid);margin-top:2px"></div>
+      <div class="modal-specs" id="pd-specs"></div>
+      <div class="modal-desc" id="pd-desc"></div>
+      <a href="#consultation" class="btn-primary" onclick="closeDetail()">Enquire About This Property →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const PHONE       = '917907832122';
+  const EMAIL       = 'stephenshanojp@gmail.com';
+  const EJS_SERVICE  = 'service_o4umwsw';
+  const EJS_TEMPLATE = 'template_rtehile';
+  const EJS_KEY      = '6bxlyFO9Gvaclvhmh';
+
+  emailjs.init(EJS_KEY);
+
+  // ─── PROPERTIES ───────────────────────────────────────────────
+  const properties = [
+    // Properties will be added here
+  ];
+
+  let currentFilter   = 'all';
+  let searchFilter    = null;
+  let selectedContact = '';
+
+  // ─── NAV ──────────────────────────────────────────────────────
+  window.addEventListener('scroll', () => {
+    document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 40);
+  });
+  function toggleMobile() { document.getElementById('mobile-menu').classList.toggle('open'); }
+  function closeMobile()  { document.getElementById('mobile-menu').classList.remove('open'); }
+
+  // ─── COUNTERS ─────────────────────────────────────────────────
+  function animateCounter(id, target, suffix) {
+    let v = 0; const el = document.getElementById(id);
+    const inc = target / (1800 / 16);
+    const t = setInterval(() => {
+      v += inc;
+      if (v >= target) { el.textContent = target + suffix; clearInterval(t); }
+      else el.textContent = Math.floor(v) + suffix;
+    }, 16);
+  }
+  new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCounter('stat-sold', 500, '+');
+        animateCounter('stat-rented', 350, '+');
+        animateCounter('stat-years', 22, '+');
+        animateCounter('stat-clients', 1200, '+');
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.3 }).observe(document.getElementById('hero'));
+
+  // ─── SCROLL REVEAL ────────────────────────────────────────────
+  (() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  })();
+
+  // ─── PROPERTIES ───────────────────────────────────────────────
+  function noPhotoHTML(size) {
+    return `<div class="no-photo"><svg width="${size}" height="${size}" fill="none" viewBox="0 0 24 24" stroke="#C9A84C"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span>Photo Not Available</span></div>`;
+  }
+
+  function renderProps(list) {
+    const grid = document.getElementById('prop-grid');
+    if (!list.length) { grid.innerHTML = '<div class="no-prop-msg">No properties found. Please refine your search or check back later.</div>'; return; }
+    grid.innerHTML = list.map((p, i) => {
+      const badgeClass = p.listing === 'sale' ? 'badge-sale' : 'badge-rent';
+      const badgeText  = p.listing === 'sale' ? 'For Sale' : 'For Rent';
+      const imgHTML    = p.photo ? `<img src="${p.photo}" alt="${p.name}" onerror="this.parentNode.innerHTML=noPhotoHTML(48)"/>` : noPhotoHTML(48);
+      let specs = '';
+      if (p.beds)   specs += `<div class="spec"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#C9A84C"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg> ${p.beds} Bed</div>`;
+      if (p.baths)  specs += `<div class="spec"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#C9A84C"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> ${p.baths} Bath</div>`;
+      if (p.area)   specs += `<div class="spec"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#C9A84C"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg> ${Number(p.area).toLocaleString()} sqft</div>`;
+      if (p.floors) specs += `<div class="spec"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#C9A84C"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg> ${p.floors} Floor</div>`;
+      return `<div class="prop-card">
+        <div class="prop-img-wrap">${imgHTML}<div class="prop-badge ${badgeClass}">${badgeText}</div></div>
+        <div class="prop-body">
+          <div class="prop-type">${p.type ? p.type[0].toUpperCase()+p.type.slice(1) : 'Property'}</div>
+          <div class="prop-name">${p.name}</div>
+          <div class="prop-location">📍 ${p.location}</div>
+          <div class="prop-price">₹${p.price || 'Price on Request'}${p.listing==='rent'?'<span class="prop-price-per">/month</span>':''}</div>
+          ${p.persqft ? `<div style="font-size:0.75rem;color:var(--mid)">₹${p.persqft}/sqft</div>` : ''}
+          ${specs ? `<div class="prop-specs">${specs}</div>` : ''}
+        </div>
+        <div class="prop-footer">
+          <a href="#" onclick="openDetail(${i});return false">View Details →</a>
+          <a href="#consultation" style="color:var(--mid);font-size:0.75rem;font-weight:400;text-transform:none;letter-spacing:0">Enquire</a>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function getFiltered() {
+    let list = [...properties];
+    if (searchFilter) {
+      if (searchFilter.type)     list = list.filter(p => p.type === searchFilter.type);
+      if (searchFilter.listing)  list = list.filter(p => p.listing === searchFilter.listing);
+      if (searchFilter.location) list = list.filter(p => p.location.toLowerCase().includes(searchFilter.location.toLowerCase()));
+      if (searchFilter.min) list = list.filter(p => parseFloat(String(p.price).replace(/[^0-9.]/g,'')) >= searchFilter.min);
+      if (searchFilter.max) list = list.filter(p => parseFloat(String(p.price).replace(/[^0-9.]/g,'')) <= searchFilter.max);
+      if (searchFilter.beds) list = list.filter(p => p.beds && Number(p.beds) >= searchFilter.beds);
+    }
+    if (currentFilter !== 'all') {
+      if (['sale','rent'].includes(currentFilter)) list = list.filter(p => p.listing === currentFilter);
+      else list = list.filter(p => p.type === currentFilter);
+    }
+    return list;
+  }
+
+  function filterTab(type, btn) {
+    currentFilter = type; searchFilter = null;
+    document.querySelectorAll('.prop-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProps(getFiltered());
+  }
+
+  function applySearch() {
+    searchFilter = {
+      type:     document.getElementById('f-type').value,
+      listing:  document.getElementById('f-listing').value,
+      location: document.getElementById('f-location').value.trim(),
+      min:      parseFloat(document.getElementById('f-min').value) || null,
+      max:      parseFloat(document.getElementById('f-max').value) || null,
+      beds:     parseInt(document.getElementById('f-beds').value) || null,
+    };
+    currentFilter = 'all';
+    document.querySelectorAll('.prop-tab').forEach(b => b.classList.remove('active'));
+    document.querySelector('.prop-tab').classList.add('active');
+    document.getElementById('properties').scrollIntoView({ behavior: 'smooth' });
+    renderProps(getFiltered());
+  }
+
+  // ─── PROPERTY DETAIL ──────────────────────────────────────────
+  function openDetail(i) {
+    const p = getFiltered()[i]; if (!p) return;
+    document.getElementById('pd-img').innerHTML = p.photo
+      ? `<img src="${p.photo}" alt="${p.name}" onerror="this.parentNode.innerHTML=noPhotoHTML(60)"/>`
+      : noPhotoHTML(60);
+    document.getElementById('pd-tags').innerHTML =
+      `<span class="modal-tag">${p.type ? p.type[0].toUpperCase()+p.type.slice(1) : 'Property'}</span>` +
+      `<span class="modal-tag" style="background:${p.listing==='sale'?'#8B4513':'#2D6A4F'};color:#fff;border:none">${p.listing==='sale'?'For Sale':'For Rent'}</span>`;
+    document.getElementById('pd-name').textContent  = p.name;
+    document.getElementById('pd-loc').textContent   = '📍 ' + p.location;
+    document.getElementById('pd-price').textContent = '₹' + (p.price || 'Price on Request') + (p.listing==='rent'?' / month':'');
+    document.getElementById('pd-ppsf').textContent  = p.persqft ? '₹' + p.persqft + ' per sqft' : '';
+    let specs = '';
+    if (p.beds)   specs += `<div class="mspec"><div class="mspec-val">${p.beds}</div><div class="mspec-label">Bedrooms</div></div>`;
+    if (p.baths)  specs += `<div class="mspec"><div class="mspec-val">${p.baths}</div><div class="mspec-label">Bathrooms</div></div>`;
+    if (p.area)   specs += `<div class="mspec"><div class="mspec-val">${Number(p.area).toLocaleString()}</div><div class="mspec-label">Sq Ft</div></div>`;
+    if (p.floors) specs += `<div class="mspec"><div class="mspec-val">${p.floors}</div><div class="mspec-label">Floors</div></div>`;
+    document.getElementById('pd-specs').innerHTML = specs;
+    document.getElementById('pd-desc').textContent = p.desc || 'Contact us for more details about this property.';
+    document.getElementById('prop-detail').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDetail() {
+    document.getElementById('prop-detail').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('prop-detail').addEventListener('click', e => {
+    if (e.target === document.getElementById('prop-detail')) closeDetail();
+  });
+
+  // ─── CONTACT METHOD ───────────────────────────────────────────
+  function selectContact(method) {
+    selectedContact = method;
+    document.getElementById('opt-wa').classList.toggle('selected', method === 'whatsapp');
+    document.getElementById('opt-mail').classList.toggle('selected', method === 'mail');
+  }
+
+  // ─── CONSULTATION ─────────────────────────────────────────────
+  function submitConsult() {
+    const fn = document.getElementById('c-fname').value.trim();
+    const ph = document.getElementById('c-phone').value.trim();
+    const em = document.getElementById('c-email').value.trim();
+    const ty = document.querySelector('input[name="c-type"]:checked');
+    if (!fn || !ph || !em || !ty) { alert('Please fill in all required fields.'); return; }
+    if (!selectedContact) { alert('Please select a preferred contact method.'); return; }
+    const fullName = (fn + ' ' + document.getElementById('c-lname').value.trim()).trim();
+    const date     = document.getElementById('c-date').value || 'Flexible';
+    const time     = document.getElementById('c-time').value || 'Flexible';
+    const msg      = document.getElementById('c-msg').value.trim() || 'N/A';
+    if (selectedContact === 'whatsapp') {
+      const text = `Hello Mr. Stephen Shanoj,\n\nI'd like to book a consultation.\n\n*Name:* ${fullName}\n*Phone:* ${ph}\n*Email:* ${em}\n*Type:* ${ty.value}\n*Date:* ${date}\n*Time:* ${time}\n*Message:* ${msg}\n\nThank you!`;
+      window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(text)}`, '_blank');
+      showConsultSuccess(`WhatsApp opened! Your message is ready to send to Mr. Stephen.<br/>📞 +91 79078 32122`);
+    } else {
+      const message = `Consultation Request\n\nName: ${fullName}\nPhone: ${ph}\nEmail: ${em}\nType: ${ty.value}\nDate: ${date}\nTime: ${time}\nMessage: ${msg}`;
+      emailjs.send(EJS_SERVICE, EJS_TEMPLATE, { title: `Consultation – ${fullName}`, name: fullName, email: em, message })
+        .then(() => showConsultSuccess(`Email sent! Mr. Stephen will get back to you soon.<br/>✉️ stephenshanojp@gmail.com`))
+        .catch(() => alert('Could not send email. Please try again or contact us directly at stephenshanojp@gmail.com'));
+    }
+  }
+
+  function showConsultSuccess(msg) {
+    document.getElementById('consult-form-inner').style.display = 'none';
+    document.getElementById('consult-success').style.display = 'flex';
+    document.getElementById('consult-success-msg').innerHTML = msg;
+  }
+
+  function resetConsult() {
+    selectedContact = '';
+    document.getElementById('consult-form-inner').style.display = 'block';
+    document.getElementById('consult-success').style.display = 'none';
+    ['c-fname','c-lname','c-phone','c-email','c-msg'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('c-time').value = '';
+    document.querySelectorAll('input[name="c-type"]').forEach(r => r.checked = false);
+    document.querySelectorAll('.contact-option-btn').forEach(b => b.classList.remove('selected'));
+  }
+
+  // ─── QUICK ENQUIRY ────────────────────────────────────────────
+  function submitQuick() {
+    const n  = document.getElementById('q-name').value.trim();
+    const ph = document.getElementById('q-phone').value.trim();
+    const em = document.getElementById('q-email').value.trim();
+    const mg = document.getElementById('q-msg').value.trim();
+    if (!n || !ph) { alert('Please enter your name and phone number.'); return; }
+    const message = `Quick Enquiry\n\nName: ${n}\nPhone: ${ph}\nEmail: ${em || 'N/A'}\nMessage: ${mg || 'N/A'}`;
+    emailjs.send(EJS_SERVICE, EJS_TEMPLATE, { title: `Quick Enquiry from ${n}`, name: n, email: em || EMAIL, message })
+      .then(() => {
+        document.getElementById('quick-success').style.display = 'block';
+        ['q-name','q-phone','q-email','q-msg'].forEach(id => document.getElementById(id).value = '');
+      })
+      .catch(() => alert('Could not send enquiry. Please contact us directly at stephenshanojp@gmail.com'));
+  }
+
+  // ─── INIT ─────────────────────────────────────────────────────
+  renderProps(properties);
+</script>
+</body>
+</html>
